@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices.Expando;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+namespace pizza
+{
+public partial class From : Form
+    {
+        string[] sorok;
+        String[,,] pizzak = new String[100, 100, 100];
+        public From()
+        {         
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_data_Click(object sender, EventArgs e)
+        {
+            
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+               sorok = File.ReadAllLines(openFileDialog.FileName);
+            }
+            int id = 0;
+
+            foreach (string sor in sorok)
+            {
+                string[] parts = sor.Split(';');
+
+                id++;
+                string pizza = parts[0];
+                int kicsi = int.Parse(parts[1]);
+                int nagy = int.Parse(parts[2]);
+
+               
+            }
+            btn_data.Enabled = false;
+            btn_data.Visible = false;
+            BackgroundImage = null;
+            BackColor = Color.Beige;
+            textBox1.Visible = true;
+            btn_delete.Visible = true;
+            btn_sum.Visible = true;
+            fizetendo.Visible = true;
+            ar.Visible = true;
+            btn_close.Visible = true;
+
+
+
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            btn_data.Enabled = true;
+            btn_data.Visible = true;
+            BackgroundImage = global::pizza.Properties.Resources.pizzeria;
+            textBox1.Visible = false;
+            btn_delete.Visible = false;
+            btn_sum.Visible = false;
+            fizetendo.Visible = false;
+            ar.Visible = false;
+            btn_close.Visible = false;
+        }
+    }
+}

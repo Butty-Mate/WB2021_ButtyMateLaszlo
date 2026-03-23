@@ -1,37 +1,4 @@
-# 📋 WinForms Cheat Sheet – Számonkéréshez
-
----
-
-## 🔍 MINI KERESŐ – Mit keresel? Kattints rá!
-
-| Ha ezt keresed...                          | Ugorj ide 👇                                              |
-|--------------------------------------------|-----------------------------------------------------------|
-| fájl megnyitás, beolvasás, `txt`           | [1. Fájl beolvasás](#1-fájl-beolvasás)                    |
-| `Split`, pontosvessző, sor darabolás       | [2. Sor feldarabolása](#2-sor-feldarabolása)               |
-| tömb, `CheckBox[]`, for ciklus, vezérlők   | [3. Vezérlők tömbbe](#3-vezérlők-tömbbe-rakása)           |
-| `RadioButton`, csoport, `Panel`, választás | [4. RadioButton csoportosítás](#4-radiobutton-csoportosítás) |
-| láthatóság, elrejtés, nézet váltás         | [5. Nézetek váltása](#5-vezérlők-láthatósága)              |
-| ellenőrzés, validálás, hiba                | [6. Validálás](#6-validálás)                               |
-| ↳ van-e kijelölve?                         | [6a. Kijelölés check](#a-van-e-kijelölt-elem)             |
-| ↳ RadioButton kiválasztva?                 | [6b. RadioButton check](#b-ki-van-e-választva-radiobutton) |
-| ↳ szám ellenőrzés, `TryParse`             | [6c. Szám validálás](#c-pozitív-egész-szám-ellenőrzés)    |
-| összeg, számolás, `continue`, `? :`        | [7. Összeg számolás](#7-összeg-számolás)                   |
-| törlés, reset, alaphelyzet                 | [8. Törlés](#8-törlés-reset)                               |
-| `ReadOnly`, csak olvasható                 | [9. ReadOnly TextBox](#9-csak-olvasható-textbox)           |
-| szín, felirat, font, `Visible`, `Enabled`  | [10. Designer tulajdonságok](#10-hasznos-tulajdonságok)    |
-
-### ⚡ Gyors kulcsszó-térkép
-
-```
-fájl/beolvasás ──→ §1        ellenőrzés ──→ §6
-split/darabolás ──→ §2       összeg ──→ §7
-tömb/ciklus ──→ §3           törlés ──→ §8
-radiobutton ──→ §4           readonly ──→ §9
-visible/nézet ──→ §5         design ──→ §10
-```
-
----
-
+#WinForms
 ## 1. Fájl beolvasás – `OpenFileDialog` + `File.ReadAllLines`
 
 ```csharp

@@ -1,0 +1,10 @@
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\bin\Debug\Responsive.exe.config
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\bin\Debug\Responsive.exe
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\bin\Debug\Responsive.pdb
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.csproj.AssemblyReference.cache
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.Form1.resources
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.Properties.Resources.resources
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.csproj.GenerateResource.cache
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.csproj.CoreCompileInputs.cache
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.exe
+C:\Users\buttymate\Desktop\20250312_ButtyMate\Responsive\obj\Debug\Responsive.pdb

@@ -1,23 +1,29 @@
 <template>
+    <div class="container">
+        <h1 class="text-center">Túra módosítása</h1>
+        <p>PATCH kérés küldése a <code>api/Turak/{id}</code> végpontra</p>
+
+    </div>
+
     <form action="">
     <div class="mb-3">
-        <label for="nev" class="form-label"></label>
+        <label for="nev" class="form-label">Név:</label>
         <input type="text" class="form-control" id="nev" v-model="tura.nev">
     </div>
     <div class="mb-3">
-        <label for="tavolsag" class="form-label"></label>
-        <input type="number" class="form-control" id="tavolsag" v-model="tura.tavolsag">
+        <label for="tavolsagKm" class="form-label">Távolság:</label>
+        <input type="number" class="form-control" id="tavolsagKm" v-model="tura.tavolsagKm ">
     </div>
     <div class="mb-3">
-        <label for="nehezseg" class="form-label"></label>
+        <label for="nehezseg" class="form-label">Nehézség:</label>
         <input type="text" class="form-control" id="nehezseg" v-model="tura.nehezseg">
     </div>
     <div class="mb-3">
-        <label for="becsultIdoPerc" class="form-label"></label>
+        <label for="becsultIdoPerc" class="form-label">Becsült idő (perc):</label>
         <input type="number" class="form-control" id="becsultIdoPerc" v-model="tura.becsultIdoPerc">
     </div>
     <div class="mb-3">
-        <label for="helyszin" class="form-label"></label>
+        <label for="helyszin" class="form-label">Helyszín</label>
         <input type="text" class="form-control" id="helyszin" v-model="tura.helyszin">
     </div>
     <button type="submit" class="btn btn-primary" @click.prevent="updateTura">Módosítás</button>
@@ -50,6 +56,20 @@ export default {
             .catch(error => {
                 console.error('Hiba a túra lekérésekor:', error);
             });
+    },
+    methods: {
+        updateTura() {
+            const id = this.$route.params.id;
+            axios.patch(`/Turak/${id}`, this.tura)
+                .then(() => {
+                    alert('Túra sikeresen módosítva!');
+                    this.$router.push({ name: 'Category' });
+                })
+                .catch(error => {
+                    console.error('Hiba a túra módosításakor:', error);
+                    alert('Hiba történt a túra módosításakor. Kérlek, próbáld újra!');
+                });
+        }
     }
 }
 </script>

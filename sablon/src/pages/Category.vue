@@ -46,8 +46,8 @@ export default {
     name: 'Category',
     data() {
         return {
-            Kategoriak: [],
-            SelectedCategory: 0,
+            kategoriak: [],
+            selectedCategory: 0,
             turak: []
         }
     },
@@ -63,7 +63,7 @@ export default {
     methods: {
         lekerdezTurakCategory() {
             if (this.selectedCategory) {
-                axios.get(`/Kategoriak/${this.SelectedCategory}`)
+                axios.get(`/Kategoriak/${this.selectedCategory}`)
                     .then(response => {
                         this.turak = response.data.turak;
                     })
@@ -75,12 +75,18 @@ export default {
             }
         },
         modositTura(id) {
-            // Itt implementálhatod a módosítás logikáját
-            alert(`Módosítandó túra ID: ${id}`);
+            this.$router.push({ name: 'Update', params: { id } });
         },
         torolTura(id) {
-            // Itt implementálhatod a törlés logikáját
-            alert(`Törlendő túra ID: ${id}`);
+            if (confirm('Biztosan törölni szeretnéd ezt a túrát?')) {
+                axios.delete(`/Turak/${id}`)
+                    .then(() => {
+                        this.lekerdezTurakCategory();
+                    })
+                    .catch(error => {
+                        console.error('Hiba a túra törlésekor:', error);
+                    });
+            }
         }
 
 }}

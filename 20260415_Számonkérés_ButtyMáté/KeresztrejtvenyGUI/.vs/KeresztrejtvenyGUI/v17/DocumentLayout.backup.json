@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|c:\\users\\buttymate\\desktop\\20260415_sz\u00E1monk\u00E9r\u00E9s_buttym\u00E1t\u00E9\\keresztrejtvenygui\\keresztrejtvenygui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|solutionrelative:keresztrejtvenygui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|c:\\users\\buttymate\\desktop\\20260415_sz\u00E1monk\u00E9r\u00E9s_buttym\u00E1t\u00E9\\keresztrejtvenygui\\keresztrejtvenygui\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|solutionrelative:keresztrejtvenygui\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|c:\\users\\buttymate\\desktop\\20260415_sz\u00E1monk\u00E9r\u00E9s_buttym\u00E1t\u00E9\\keresztrejtvenygui\\keresztrejtvenygui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EAEE24F4-5AE0-4B5D-92D1-704F15BF5606}|KeresztrejtvenyGUI\\KeresztrejtvenyGUI.csproj|solutionrelative:keresztrejtvenygui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "KeresztrejtvenyGUI\\Form1.Designer.cs",
+              "ToolTip": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.Designer.cs*",
+              "RelativeToolTip": "KeresztrejtvenyGUI\\Form1.Designer.cs*",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwB4AAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T10:26:33.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.cs",
+              "RelativeDocumentMoniker": "KeresztrejtvenyGUI\\Form1.cs",
+              "ToolTip": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.cs*",
+              "RelativeToolTip": "KeresztrejtvenyGUI\\Form1.cs*",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAwBMAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T10:23:10.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.cs",
+              "RelativeDocumentMoniker": "KeresztrejtvenyGUI\\Form1.cs",
+              "ToolTip": "C:\\Users\\buttymate\\Desktop\\20260415_Sz\u00E1monk\u00E9r\u00E9s_ButtyM\u00E1t\u00E9\\KeresztrejtvenyGUI\\KeresztrejtvenyGUI\\Form1.cs [Design]*",
+              "RelativeToolTip": "KeresztrejtvenyGUI\\Form1.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T10:16:01.966Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

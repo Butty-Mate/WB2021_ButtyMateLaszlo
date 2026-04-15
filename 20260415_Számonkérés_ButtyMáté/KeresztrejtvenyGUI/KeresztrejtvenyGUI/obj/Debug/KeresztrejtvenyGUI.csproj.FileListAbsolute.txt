@@ -1,0 +1,11 @@
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\bin\Debug\KeresztrejtvenyGUI.exe.config
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\bin\Debug\KeresztrejtvenyGUI.exe
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\bin\Debug\KeresztrejtvenyGUI.pdb
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.csproj.AssemblyReference.cache
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.Form1.resources
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.Properties.Resources.resources
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.csproj.GenerateResource.cache
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.csproj.CoreCompileInputs.cache
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.exe
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.pdb
+C:\Users\buttymate\Desktop\20260415_Számonkérés_ButtyMáté\KeresztrejtvenyGUI\KeresztrejtvenyGUI\obj\Debug\KeresztrejtvenyGUI.exe.config

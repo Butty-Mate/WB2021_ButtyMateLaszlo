@@ -35,3 +35,128 @@ jelenlegi datum ha kell
 hirdetesDatuma: new Date().toISOString().substr(0, 10),
 
 scriptbe 
+
+
+Home.vue: kezdo oldal, csak navigacio gombok a tobbi page-re.
+List.vue: teljes lista, GET /api/Turak; tablazatban minden tura adat.
+Category.vue: kategoria szerint szurt lista, GET /api/Kategoriak/{id}; modositas es torles gombokkal.
+Add.vue: uj tura felvitel, GET /api/Kategoriak (kategoriak a legordulohoz), POST /api/Turak.
+Update.vue: tura modositasa, GET /api/Turak/{id}, PATCH /api/Turak/{id}.
+Filter.vue: dropdown szures nehezseg szerint, GET /api/Turak; kliens oldali szures.
+App.vue: csak <router-view>.
+router.js: minden route be van kotve (/, /list, /category, /add, /update/:id, /filter).
+
+Vue.js – Vizsga jegyzet
+1. PROJEKT INDÍTÁS
+npm create vue@latest ProjektNev
+cd ProjektNev
+npm i
+npm run dev
+Több projekt egyszerre: új VSCode ablak → File → New Window → Open Folder, automatikusan következő portot veszi fel (5174, 5175...)
+
+2. MAPPASTRUKTÚRA
+src/
+  assets/      = képek, css fájlok
+  components/  = újrafelhasználható komponensek
+  views/       = oldalak
+  router/      = útvonalak (index.js)
+  App.vue      = főkomponens
+  main.js      = belépési pont
+
+3. ROUTER BEÁLLÍTÁS
+router/index.js-ben törölni mindent csak Home maradjon
+Új oldal hozzáadása 3 helyen kell:
+
+router/index.js = import + routes-ba
+App.vue vagy Navbar = router-link
+src/views/ = maga a Vue fájl létrehozása
+
+
+4. NAVIGÁCIÓ
+a tag helyett mindig router-link:
+<router-link to="/ajanlatok" class="btn btn-primary">
+  Ajánlatok
+</router-link>
+App.vue-ban kell a RouterView az oldalak megjelenítéséhez:
+<RouterView />
+
+5. KÉPEK
+Képeket src/assets/ mappába rakni
+API-ból jövő kép URL-nél:
+<img :src="ingatlan.kepUrl" alt="kép" style="max-width:100px; max-height:100px;">
+
+6. CSS
+Globális CSS import a main.js-be:
+import './assets/main.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+7. LISTA MEGJELENÍTÉS
+Script részben:
+data() {
+  return {
+    lista: []
+  }
+},
+mounted() {
+  fetch('http://127.0.0.1:8000/api/vegpont')
+    .then(r => r.json())
+    .then(data => this.lista = data)
+},
+Template részben:
+<div v-for="elem in lista" :key="elem.id">
+  {{ elem.nev }}
+</div>
+
+8. TÁBLÁZAT
+Template részben:
+<tr v-for="elem in lista" :key="elem.id">
+  <td style="text-align:center">{{ elem.id }}</td>
+  <td style="text-align:center">{{ elem.nev }}</td>
+</tr>
+Fontos: text-align center a th td-be kell inline style-ként!
+
+9. FORM ADATOK
+Script data részben:
+ujElem: {
+  nev: '',
+  ar: '',
+  datum: new Date().toISOString().substr(0, 10),
+}
+Template részben:
+<input v-model="ujElem.nev" type="text">
+<input v-model="ujElem.ar" type="number">
+<input v-model="ujElem.datum" type="date" readonly>
+<button @click="mentes">Mentés</button>
+
+10. FETCH HÍVÁSOK
+POST:
+await fetch('http://127.0.0.1:8000/api/vegpont', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+  body: JSON.stringify(this.ujElem)
+})
+PATCH:
+await fetch(`http://127.0.0.1:8000/api/vegpont/${id}`, {
+  method: 'PATCH',
+  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+  body: JSON.stringify(this.modElem)
+})
+DELETE:
+await fetch(`http://127.0.0.1:8000/api/vegpont/${id}`, {
+  method: 'DELETE',
+  headers: { 'Accept': 'application/json' }
+})
+
+11. HASZNOS APRÓSÁGOK
+v-if / v-else     = feltételes megjelenítés
+v-model           = kétirányú kötés input mezőhöz
+@click            = kattintás esemény
+:src :class :style = dinamikus érték kötés
+readonly          = input mezőbe nem lehet írni
+Swagger alapján mindig ellenőrizd a mezőneveket!
+
+PARANCSOK
+npm create vue@latest ProjektNev
+npm i
+npm run dev
+npm run build

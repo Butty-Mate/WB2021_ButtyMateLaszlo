@@ -1,0 +1,37 @@
+npm i 
+npm run dev 
+szerver elinditani 
+
+npm pack
+npm essential
+
+router js bol torolni csak a home marad az importoknál és a routes nal is 
+
+main js be beleirni az uj oldalt és az APP ba is a main js ben 
+
+ha van kép átrakni a sanlob asset ba 
+
+css html bemasolasa 
+
+linkelés <a> helyére
+<router-link to="/offers" class="btn btn-primary">Nézze meg kínálatunkat!</router-link>
+
+minta alapján
+ 
+
+script atmasolas listánál átirasa a swagger alaojan 
+
+
+kép url hez 
+
+<img :src="ingatlan.kepUrl" alt="Ingatlan képe" style="max-width: 100px; max-height: 100px;">  
+
+szöveg közepreigazitasnal tr th ban kell a center
+
+readonly ha kell az input ba 
+
+
+jelenlegi datum ha kell 
+hirdetesDatuma: new Date().toISOString().substr(0, 10),
+
+scriptbe 

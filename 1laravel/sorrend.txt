@@ -1,0 +1,342 @@
+Bővítmények:
+Laravel Snippets
+Laravel Extra Intellisense
+
+Ctr+P gyors keresés 
+
+VSCODE -> AutoSave 
+
+1. composer create-project laravel/laravel Nev -> ékezet nélkül
+2. env szerkesztés:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=turatar ->adatbázis neve 
+DB_USERNAME=root
+DB_PASSWORD=   ->ampss nél jelszó mysql
+
+3. composer remove laravel/sanctum -> nem kell auth nem baj ha nem jó nem kötelező 
+
+
+4. táblák létrehozása ->kisebb elsőnek	nagybetűvel van a neve
+php artisan make:model -m  Nev -> -m migration 
+php artisan make:model -mc --api Nev -> migration es controller  --api api.php lesz és app.php is beleírja
+s eket kivenni a nevében és a kódban is fent lent kódban
+
+tábláknál számít az idő a migrációnál a névben 
+->unique() -> egyedi id s 
+->nullable() -> lehet nulla a mező alapból nem az 
+másodlagos kulcs 
+$table->foreignId('alap tabla')->references('kapcsolati tábla')->on('masik tablaban a mező neve primary key-e')
+jelenlegi idő lekérése:
+$table->date('Datuma')->nullable()->default(DB::raw('CURRENT_TIMESTAMP')); 
+
+
+5. Model
+guard vagy fillable 
+public $timestamps = false; kell 
+
+protected $fillable = [
+'kategoria_id',
+'leiras',
+'indulas',     
+'tav',     
+'aktiv',
+'kep',
+];
+
+vagy 
+
+protected $guarded = [];
+
+6. Seeder 
+Példa 
+kell a use Illuminate\Support\Facades\DB;
+
+        DB::table('kategoriaks')->insert([
+            ['id' => 1, 'nev' => 'Tracking tura'],
+            ['id' => 2, 'nev' => 'Teljesitmeny tura'],
+            ['id' => 3, 'nev' => 'Jelvenyszerzo tura'],
+            ['id' => 4, 'nev' => 'Kerekpartura'],
+            ['id' => 5, 'nev' => 'Evezos tura'],
+            ['id' => 6, 'nev' => 'Magashegyi expedicio'],
+        ]);
+
+
+7. Controller 
+alap sablon 
+Model ek csatolasa 
+Pl. 
+use App\Models\Turak;
+use App\Models\Kategoriak;
+ha kell 
+use Illuminate\Support\Facades\Validator;
+
+GET rész 
+
+Minden adat kiírása api.php változik a vege a nev alapján 
+public function index()
+{
+    $turak = Turak::all();
+    return response()->json($turak, 200);
+}
+
+ID alapján 
+ public function show($id)
+{
+  $turak = Turak::where('kategoria_id', $id)->get();
+  return response()->json($turak, 200);
+}
+
+
+
+konkrét keresés egy tablaban 
+public function show($id)
+{
+    $tura = Turak::find($id);
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+    return response()->json($tura, 200);
+}
+
+POST
+
+public function store(Request $request)
+    {
+    $required = ['kategoria_id', 'leiras', 'indulas', 'tav', 'aktiv', 'kep'];
+
+    foreach ($required as $field) {
+        if (!$request->has($field)) {
+            return response()->json("Hianyos adatok.", 400);
+        }
+    }
+
+    $tura = Turak::create([
+        'kategoria_id' => $request->input('kategoria_id'),
+        'leiras'       => $request->input('leiras'),
+        'indulas'      => $request->input('indulas'),
+        'tav'          => $request->input('tav'),
+        'aktiv'        => $request->input('aktiv'),
+        'kep'          => $request->input('kep'),
+    ]);
+
+    return response()->json(['id' => $tura->id], 201);
+    }
+
+
+vagy 
+
+public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'kategoria' => 'required',
+            'ar' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Hiányos adatok'], 400);
+        }
+        $ingatlan = Ingatlan::create($request->all());
+        return response()->json(['id' => $ingatlan->id], 201);
+    }
+
+PATCH 
+
+HA KELL REQUIRED 
+
+public function update(Request $request, $id)
+{
+    // 1. VALIDÁCIÓ: A kért kötelező (required) mezők ellenőrzése
+    $validator = Validator::make($request->all(), [
+        'kategoria' => 'required', // A kategóriát muszáj elküldeni
+        'ar' => 'required',        // Az árat muszáj elküldeni
+    ]);
+
+    // 2. HA HIÁNYZIK VALAMELYIK KÖTELEZŐ:
+    if ($validator->fails()) {
+        return response()->json("Hiányos adatok.", 400);
+    }
+
+    // 3. INGATLAN KERESÉSE AZ ADATBÁZISBAN
+    $ingatlan = Ingatlan::find($id);
+
+    // 4. HA NINCS ILYEN ID:
+    if (!$ingatlan) {
+        return response()->json("Az ingatlan nem létezik.", 404);
+    }
+
+    // 5. FRISSÍTÉS
+    // (A $request->all() az összes elküldött mezőt frissíti, nem csak a kategóriát és az árat)
+    $ingatlan->update($request->all());
+
+    // 6. VÁLASZ (Sikeres frissítés)
+    return response('', 204); 
+}
+
+HA NEM 
+
+public function update(Request $request, $id)
+    {
+    $tura = Turak::find($id);
+
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+
+    $data = $request->only(['kategoria_id','leiras','indulas','tav','aktiv','kep']);
+
+    $tura->fill($data);
+    $tura->save();
+
+    return response()->json($tura, 200);
+    }
+
+DELETE 
+public function destroy($id)
+{
+    $ingatlan = Ingatlan::find($id);
+
+    if (!$ingatlan) {
+        return response('Az ingatlan nem letezik.', 404);
+    }
+
+    $ingatlan->delete();
+    return response('', 204);
+}
+
+8. api.php 
+
+api.php a routes ben van 
+ha nincs alapbol hozzáadava akkor az app.php ba 
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+és az api.php ba 
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TurakController;
+
+Route::get('/kategoria/{id}', [TurakController::class, 'show']);
+Route::post('/tura', [TurakController::class, 'store']);
+Route::patch('/tura/{id}', [TurakController::class, 'update']);
+Route::delete('/tura/{id}', [TurakController::class, 'destroy']);sa
+
+9 POSTMAN 
+Pl.:
+http://127.0.0.1:8000/api/tura/3
+
+A Fejlécek (Headers) - Ezen múlik minden!
+Kattints az URL sáv alatti Headers fülre. Itt két dolgot KELL beállítanod, hogy a Laravel megértse, mit akarsz:
+
+Írd be az első sorba (Key): Accept | Értéke (Value): application/json
+
+Írd be a második sorba (Key): Content-Type | Értéke (Value): application/json
+(Ezek mondják meg a szervernek, hogy "Hé, JSON-t küldök, és JSON választ is várok!")
+
+3. A Test (Body) - Maga az adat
+
+Kattints a Body fülre (a Headers mellett).
+
+Válaszd ki a raw rádiógombot.
+
+A raw felirat mellett jobbra van egy kis legördülő (általában Text van odaírva). Azt állítsd át JSON-re!
+
+
+
+10. Törlés 
+VENDOR mappa törlése 
+
+vuejs node_modules mappa torles
+
+egyedi: ->unique()
+nem kötelező: ->nullable()
+hivatkozni masik adatbazisra: 
+$table->foreignId('adott tabla amiben dolgozol')->references('masik tabla amihez hozza kell kotni')->on('masik tabla neve')
+jelenlegi ido: 
+use Illuminate\Support\Facades\DB;
+$table->date('hirdetesDatuma')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+
+
+
+EZ CSAK SEGETLEN A CLOUDENAK
+php:
+use HasFactory;
+    public $table = 'kategoriak';
+    public $timestamps = false;
+	
+	ingatlan vege:
+	public $guarded = [];
+	
+php artisan make:model -mc --api Ingatlan
+
+$table->foreignId('kategoria_id')->references('id')->on('kategoriak');
+use Illuminate\Support\Facades\DB;
+jelenlegi ido: $table->date('hirdetesDatuma')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+
+
+seeder(feltoltesek->run):
+$kategoriak = ['Ház', 'Lakás', 'Építési telek', 'Garázs', 'Mezőgazdasági terület', 'Ipari ingatlan'];
+        foreach ($kategoriak as $key => $value) {
+            Kategoria::create(['nev' => $value]);
+        }
+		
+
+php, inagatlan:
+belongsTo (vegpontok) -> csak begepelni, utana tabolni
+return $this->belongsTo(Kategoria::class, 'kategoria');
+
+php artisan install:api
+
+api.php:
+Route::get('/ingatlan', [App\Http\Controllers\IngatlanController::class, 'index']);
+index(Controller):
+return Ingatlan::with('kategoria')->get();
+
+Route::post('/ingatlan', [App\Http\Controllers\IngatlanController::class, 'store']);
+store(Controller):
+use Illuminate\Support\Facades\Validator;
+$validator = Validator::make($request->all(), [
+            'kategoria' => 'required',
+            'tehermentes' => 'required',
+            'ar' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Hiányos adatok'], 400);
+        }
+        $ingatlan = Ingatlan::create($request->all());
+        return response()->json(['id'=> $ingatlan->id], 201);
+
+POSTMAN:
+A Fejlécek (Headers) - Ezen múlik minden!
+Kattints az URL sáv alatti Headers fülre. Itt két dolgot KELL beállítanod, hogy a Laravel megértse, mit akarsz:
+
+Írd be az első sorba (Key): Accept | Értéke (Value): application/json
+
+Írd be a második sorba (Key): Content-Type | Értéke (Value): application/json
+(Ezek mondják meg a szervernek, hogy "Hé, JSON-t küldök, és JSON választ is várok!")
+
+3. A Test (Body) - Maga az adat
+
+Kattints a Body fülre (a Headers mellett).
+
+Válaszd ki a raw rádiógombot.
+
+A raw felirat mellett jobbra van egy kis legördülő (általában Text van odaírva). Azt állítsd át JSON-re!
+
+
+
+		
+Route::delete('/ingatlanok', [App\Http\Controllers\IngatlanController::class, 'destroy']);
+destroy(Controller):
+public function destroy($id)
+    {
+        $ingatlan = Ingatlan::where('id', '=', $id);
+        if ($ingatlan->exists()) 
+        {
+            $ingatlan->delete();
+... (17 sor maradt)

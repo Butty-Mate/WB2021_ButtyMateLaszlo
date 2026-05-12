@@ -1,0 +1,273 @@
+Laravel REST API – Vizsga jegyzet
+1. PROJEKT LÉTREHOZÁS
+composer create-project laravel/laravel Vezeteknev_Keresztnev_backend
+cd Vezeteknev_Keresztnev_backend
+Ékezet nélkül! VSCode AutoSave 
+Bővítmények: Laravel Snippets, Laravel Extra Intellisense
+Ctrl+P = gyors fájl keresés
+
+2. ENV BEÁLLÍTÁS
+.env fájlban:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=adatbazisnev
+DB_USERNAME=root
+DB_PASSWORD= ->ampss nél jelszó mysql
+Adatbázist létre kell hozni phpMyAdmin-ban vagy elfogadni yes el 
+
+3. SANCTUM ELTÁVOLÍTÁS
+composer remove laravel/sanctum
+Nem kötelező, nem baj ha kihagyod
+
+4. MODELLEK + MIGRÁCIÓK LÉTREHOZÁSA
+php artisan make:model Kategoriak -m
+php artisan make:model Turak -mc --api
+KISEBB TÁBLÁT ELŐSZÖR! (amelyikre hivatkoznak mások)
+-m = migration, -mc --api = migration + controller api végpontokkal
+
+5. MIGRATION SZERKESZTÉS -> s ek átnevezése névben fáljban 2 helyen
+use Illuminate\Support\Facades\DB; kell ha használok idot DB:raw hoz
+database/migrations/ mappában
+KATEGORIAK tábla:
+Schema::create('kategoriak', function (Blueprint $table) {
+    $table->id();
+    $table->string('nev');
+});
+TURAK tábla:
+Schema::create('turak', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('kategoria_id')->constrained('kategoriak');
+	$table->foreignId('alap tabla')->references('kapcsolati tábla')->on('masik tablaban a mező neve primary key-e')
+	$table->date('Datuma')->nullable()->default(DB::raw('CURRENT_TIMESTAMP')); 
+    $table->string('leiras')->nullable();
+    $table->date('indulas')->nullable();
+    $table->integer('tav');
+    $table->boolean('aktiv')->default(true);
+    $table->string('kep')->nullable();
+});
+Hasznos mezőtípusok:
+->nullable()          = mező lehet üres
+->default(true)       = alapértelmezett érték
+->unique()            = egyedi érték
+->constrained('tabla')= idegen kulcs
+
+6. MIGRATE FUTTATÁS
+php artisan migrate
+Ha újra kell csinálni:
+php artisan migrate:fresh
+
+7. MODEL SZERKESZTÉS kapcsolatok az álján mitában van 
+app/Models/ mappában
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+
+class Turak extends Model
+{
+    public $timestamps = false;
+
+    protected $fillable = [
+        'kategoria_id',
+        'leiras',
+        'indulas',
+        'tav',
+        'aktiv',
+        'kep',
+    ];
+}
+FONTOS: $timestamps = false; ha nincs created_at/updated_at a táblában!
+Alternatíva fillable helyett: protected $guarded = [];
+
+8. SEEDER LÉTREHOZÁS
+
+<?php
+namespace Database\Seeders;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; -> ez kell 
+
+class KategoriakSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('kategoriak')->insert([
+            ['id' => 1, 'nev' => 'Tracking tura'],
+            ['id' => 2, 'nev' => 'Teljesitmeny tura'],
+            ['id' => 3, 'nev' => 'Jelvenyszerzo tura'],
+            ['id' => 4, 'nev' => 'Kerekpartura'],
+            ['id' => 5, 'nev' => 'Evezos tura'],
+            ['id' => 6, 'nev' => 'Magashegyi expedicio'],
+        ]);
+    }
+}
+
+Seeder futtatása:
+php artisan migrate:fresh --seed
+
+9. CONTROLLER SZERKESZTÉS
+app/Http/Controllers/ mappában
+Fejléc (mindig kell):
+use App\Models\Turak;
+use App\Models\Kategoriak;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+GET – összes adat:
+public function index()
+{
+    $turak = Turak::all();
+    return response()->json($turak, 200);
+}
+GET – id alapján (konkrét rekord):
+public function show($id)
+{
+    $tura = Turak::find($id);
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+    return response()->json($tura, 200);
+}
+GET – idegen kulcs alapján (pl. kategória összes túrája):
+public function show($id)
+{
+    $turak = Turak::where('kategoria_id', $id)->get();
+    return response()->json($turak, 200);
+}
+POST – új rekord (foreach validáció):
+public function store(Request $request)
+{
+    $required = ['kategoria_id', 'leiras', 'tav', 'aktiv'];
+
+    foreach ($required as $field) {
+        if (!$request->has($field)) {
+            return response()->json("Hianyos adatok.", 400);
+        }
+    }
+
+    $tura = Turak::create([
+        'kategoria_id' => $request->input('kategoria_id'),
+        'leiras'       => $request->input('leiras'),
+        'indulas'      => $request->input('indulas'),
+        'tav'          => $request->input('tav'),
+        'aktiv'        => $request->input('aktiv'),
+        'kep'          => $request->input('kep'),
+    ]);
+
+    return response()->json(['id' => $tura->id], 201);
+}
+POST – új rekord (Validator verzió):
+public function store(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'kategoria_id' => 'required',
+        'tav'          => 'required',
+        'aktiv'        => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json("Hianyos adatok.", 400);
+    }
+
+    $tura = Turak::create($request->all());
+    return response()->json(['id' => $tura->id], 201);
+}
+PATCH – módosítás (required nélkül):
+public function update(Request $request, $id)
+{
+    $tura = Turak::find($id);
+
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+
+    $data = $request->only(['kategoria_id','leiras','indulas','tav','aktiv','kep']);
+    $tura->fill($data);
+    $tura->save();
+
+    return response()->json($tura, 200);
+}
+PATCH – módosítás (required mezőkkel):
+public function update(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'kategoria_id' => 'required',
+        'tav'          => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json("Hianyos adatok.", 400);
+    }
+
+    $tura = Turak::find($id);
+
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+
+    $tura->update($request->all());
+    return response()->json($tura, 200);
+}
+DELETE:
+public function destroy($id)
+{
+    $tura = Turak::find($id);
+
+    if (!$tura) {
+        return response()->json("A tura nem letezik.", 404);
+    }
+
+    $tura->delete();
+    return response()->json('', 204);
+}
+
+10. API.PHP ÚTVONALAK
+routes/api.php:
+<?php
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TurakController;
+
+Route::get('/kategoria/{id}', [TurakController::class, 'show']);
+Route::post('/tura', [TurakController::class, 'store']);
+Route::patch('/tura/{id}', [TurakController::class, 'update']);
+Route::delete('/tura/{id}', [TurakController::class, 'destroy']);
+Ha az api.php nem létezik, app.php-ba kell beírni:
+->withRouting(
+    web: __DIR__.'/../routes/web.php',
+    api: __DIR__.'/../routes/api.php',
+    commands: __DIR__.'/../routes/console.php',
+    health: '/up',
+)
+
+11. SZERVER INDÍTÁS
+php artisan serve
+Alap cím: http://127.0.0.1:8000
+
+12. POSTMAN TESZTELÉS
+URL példa: http://127.0.0.1:8000/api/tura/3
+Headers fülön MINDIG be kell állítani:
+Accept          = application/json
+Content-Type    = application/json
+Body fülön:
+
+raw kiválasztása
+JSON formátum kiválasztása
+Példa body:
+
+{
+    "kategoria_id": 1,
+    "leiras": "Teszt tura",
+    "indulas": "2025-05-10",
+    "tav": 15,
+    "aktiv": true,
+    "kep": "https://example.com/kep.jpg"
+}
+
+PARANCSOK ÖSSZEFOGLALVA
+composer create-project laravel/laravel ProjektNev
+php artisan make:model NevModel -m
+php artisan make:model NevModel -mc --api
+php artisan make:seeder NevSeeder
+php artisan migrate
+php artisan migrate:fresh
+php artisan db:seed
+php artisan migrate:fresh --seed
+php artisan serve

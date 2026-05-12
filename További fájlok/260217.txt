@@ -1,0 +1,53 @@
+using MySqlConnector;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace teszt
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            MySqlConnector.MySqlConnectionStringBuilder builder = new MySqlConnector.MySqlConnectionStringBuilder
+            { 
+            Server = "localhost",
+            Port = 3306,
+            UserID = "root",
+            Password = "mysql",
+            };
+
+            MySqlConnector.MySqlConnection connection = new MySqlConnector.MySqlConnection(builder.ConnectionString);
+
+            connection.Open();
+
+            MySqlCommand command4 = new MySqlCommand("IF EXIST (DROP DATABASE radioadokk)", connection);
+
+
+            MySqlCommand command = new MySqlCommand("CREATE DATABASE radioadokk", connection);
+            MySqlCommand command1 = new MySqlCommand("CREATE TABLE kiosztas (Azon int, Frekvencia Varchar(255), Teljesitmeny Varchar(255), Csatorna Varchar(255), Adohely Varchar(255), Cim Varchar(255), PRIMARY KEY (Azon), FOREIGN KEY (adohely))", connection);
+            MySqlCommand command2 = new MySqlCommand("CREATE TABLE telepules (Nev Varchar(255), Megye Varchar(255), PRIMARY KEY (Nev), FOREIGN KEY (Megye))", connection);
+            MySqlCommand command3 = new MySqlCommand("CREATE TABLE regio (Nev Varchar(255), Megye Varchar(255)), PRIMARY KEY (Megye), FOREIGN KEY (Nev))", connection);
+
+
+            string file;
+            string[] lines;
+            using (StreamReader streamReader = new StreamReader("telepules.txt", Encoding.UTF8))
+            {
+                string str;
+                string[] str1;
+                str = streamReader.ReadLine();
+
+                str1 = str.Split('\n');
+                
+            }
+
+
+            connection.Close();
+            Console.ReadKey();
+        }
+    }
+}

@@ -1,0 +1,48 @@
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:5000/api';
+
+export default {
+    name: 'Newad',
+    data() {
+        return {
+            kategoriak: [],
+            selectedCategory: 0,
+        }
+    },
+    mounted() {
+        axios.get('/Kategoriak')
+                .then(response => {
+                    this.kategoriak = response.data;
+                })
+                .catch(error => {
+                    console.error('Hiba a kategóriák lekérésekor:', error);
+                });
+    },
+    methods: {
+        lekerdezTuraKategoria() {
+            axios.get(`/Kategoriak/${this.selectedCategory}`)
+                .then(response => {
+                    this.turak = response.data.turak;
+                })
+                .catch(error => {
+                    console.error('Hiba a kategóriák lekérésekor:', error);
+                });
+        },
+        modositTura(id) {
+            this.$router.push(`/update/${id}`);
+        },
+        torolTura(id) {
+            if (confirm('Biztosan törölni szeretnéd ezt a túrát?')) {
+                axios.delete(`/Turak/${id}`)
+                    .then(response => {
+                        alert('Túra sikeresen törölve!');
+                        this.lekerdezTuraKategoria(); // Frissítjük a listát a törlés után
+                    })
+                    .catch(error => {
+                        console.error('Hiba a túra törlésekor:', error);
+                    });
+            }
+        }
+    }
+}
